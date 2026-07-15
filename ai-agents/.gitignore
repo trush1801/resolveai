@@ -1,0 +1,16 @@
+# Python virtual environment sandbox
+venv/
+.venv/
+env/
+ENV/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local environment configuration files
+.env
+
+# OS Files
+.DS_Store

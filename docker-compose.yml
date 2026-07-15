@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # --- RELATIONAL DATABASE ---
+  postgres:
+    image: postgres:15-alpine
+    container_name: resolveai-postgres
+    environment:
+      POSTGRES_USER: resolveai_user
+      POSTGRES_PASSWORD: resolveai_password
+      POSTGRES_DB: resolveai_tickets
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U resolveai_user -d resolveai_tickets"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # --- DOCUMENT/LOG DATABASE ---
+  mongodb:
+    image: mongo:6.0
+    container_name: resolveai-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # --- VECTOR DATABASE FOR AI MEMORY ---
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: resolveai-qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrantdata:/qdrant/storage
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  pgdata:
+  mongodata:
+  qdrantdata:

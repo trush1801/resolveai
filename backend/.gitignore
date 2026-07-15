@@ -1,0 +1,14 @@
+# Dependency directories
+node_modules/
+
+# Local environment secrets (Crucial so you don't leak passwords!)
+.env
+.env.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# OS Files
+.DS_Store
