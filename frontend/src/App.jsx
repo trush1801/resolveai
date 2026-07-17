@@ -6,6 +6,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home'; // Import the new home page
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Chat from './pages/Chat';
 import AdminPanel from './pages/AdminPanel';
 import SupportDashboard from './pages/SupportDashboard';
 import CustomerChat from './pages/CustomerChat';

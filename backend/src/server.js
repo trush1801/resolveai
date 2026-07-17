@@ -1,23 +1,20 @@
 // ALWAYS load environment variables at the absolute top before loading database configs
 require('dotenv').config(); 
 
+// Fixed path: since server.js is inside src/, app is just in the same directory!
 const app = require('./app');
-const { connectDB, sequelize } = require('./config/db');
+const { connectDBs } = require('./config/db');
 
 const PORT = process.env.PORT || 5001;
 
 const startServer = async () => {
   try {
-    // 1. Verify connection state across database components
-    await connectDB();
-    
-    // 2. Sync Sequelize models with PostgreSQL tables
-    await sequelize.sync({ alter: true });
-    console.log('📊 PostgreSQL models synced successfully.');
+    // 1. Verify connection state across both PostgreSQL (Sequelize) and MongoDB (Mongoose) components
+    await connectDBs();
 
-    // 3. Launch HTTP network socket listener
+    // 2. Launch HTTP network socket listener
     app.listen(PORT, () => {
-      console.log(`🚀 ResolveAI Backend Server running on port [${PORT}]`);
+      console.log(`🚀 Resolve-AI Backend Server running on port [${PORT}]`);
     });
   } catch (error) {
     console.error('💥 Critical Gateway Initialization Failure:', error.message);
